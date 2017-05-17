@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo
 echo Setting up ROS environment variables:
 echo
