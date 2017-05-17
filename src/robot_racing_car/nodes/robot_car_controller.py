@@ -15,23 +15,23 @@ class RobotCarController:
 
     def joystick_callback(self, message):
         if (message.axes[6] == 1.0):
-            self.robot_car_publisher.publish(UInt8(TURN_LEFT_COMMAND))
+            self.robot_car_publisher.publish(UInt8(self.TURN_LEFT_COMMAND))
             rospy.logdebug('Turn left')
 
         if (message.axes[6] == -1.0):
-            self.robot_car_publisher.publish(UInt8(TURN_RIGHT_COMMAND))
+            self.robot_car_publisher.publish(UInt8(self.TURN_RIGHT_COMMAND))
             rospy.logdebug('Turn right')
 
         if (message.axes[7] == 1.0):
-            self.robot_car_publisher.publish(UInt8(MOVE_FORWARD_COMMAND))
+            self.robot_car_publisher.publish(UInt8(self.MOVE_FORWARD_COMMAND))
             rospy.logdebug('Move forward')
 
         if (message.axes[7] == -1.0):
-            self.robot_car_publisher.publish(UInt8(MOVE_BACK_COMMAND))
+            self.robot_car_publisher.publish(UInt8(self.MOVE_BACK_COMMAND))
             rospy.logdebug('Move back')
 
         if (message.axes[6] == -0.0 and message.axes[7] == -0.0):
-            self.robot_car_publisher.publish(UInt8(BREAK_COMMAND))
+            self.robot_car_publisher.publish(UInt8(self.BREAK_COMMAND))
             rospy.logdebug('Break')
 
     def __init__(self):
@@ -39,7 +39,7 @@ class RobotCarController:
         rospy.Subscriber('joy', Joy, self.joystick_callback)
 
         # Create Arduino node publisher
-        self.robot_car_publisher = rospy.Publisher('robot_car_arduino', UInt8, queue_size=10)
+        self.robot_car_publisher = rospy.Publisher('robot_car_steering', UInt8, queue_size=10)
 
 if __name__ == '__main__':
     rospy.init_node('robot_car_controller', log_level=rospy.DEBUG)
