@@ -17,7 +17,7 @@ int ENA=5;
 int ENB=11;
 int ABS = 100;
 
-void set_speed(const std_msgs::Int16& msg)
+void set_speed(const std_msgs::UInt8& msg)
 {
   int new_speed = msg.data;
   
@@ -33,6 +33,8 @@ void set_speed(const std_msgs::Int16& msg)
   {
     ABS = msg.data;
   }
+  
+  nh.logdebug("Speed set to: " + ABS);
 }
 
 void move_robot(const std_msgs::UInt8& msg)
@@ -117,7 +119,7 @@ int get_distance()
 }  
 
 ros::Subscriber<std_msgs::UInt8> steering_subscriber("robot_car_steering", &move_robot);
-ros::Subscriber<std_msgs::Int16> speed_subscriber("robot_car_speed", &set_speed);
+ros::Subscriber<std_msgs::UInt8> speed_subscriber("robot_car_speed", &set_speed);
 
 std_msgs::Int16 ultrasonic_sensor_message;
 ros::Publisher ultrasonic_sensor_publisher("robot_car_ultrasonic_sensor", &ultrasonic_sensor_message);
