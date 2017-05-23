@@ -19,7 +19,7 @@ for csv_line in csv_lines:
 
 	source_path = "../training_data/" + csv_line[0]
 
-    steering_commands.append(steering_command)
+	steering_commands.append(steering_command)
 
 steering_commands = np.array(steering_commands)
 
