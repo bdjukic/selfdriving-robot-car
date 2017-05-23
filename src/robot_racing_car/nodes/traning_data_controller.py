@@ -6,7 +6,7 @@ import numpy as np
 import csv
 import time
 import os
-import constants.py
+import constants
 
 from sensor_msgs.msg import CompressedImage
 from sensor_msgs.msg import Joy
@@ -28,6 +28,13 @@ class TrainingDataController:
         elif joystick_message.axes[7] == -1.0:
             last_joystick_command = constants.MOVE_BACK_COMMAND
 
+        current_robot_car_speed = constants.DEFAULT_SPEED
+
+        if joystick_message.axes[5] != 1.0:
+            normalized = -joystick_message.axes[5] + 1
+            speed_ratio = normalized / 2
+            current_robot_car_speed = 155 * speed_ratio + constants.DEFAULT_SPEED
+
         np_arr = np.fromstring(image_message.data, np.uint8)
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         small_image = np.empty((image.shape[1] / constants.IMAGE_SCALE, image.shape[0] / constants.IMAGE_SCALE))
@@ -48,7 +55,7 @@ class TrainingDataController:
 
         with open(training_data_file_path, append_write_flag) as csvfile:
             csv_writer = csv.writer(csvfile, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)
-            csv_writer.writerow([image_file_name, last_joystick_command])
+            csv_writer.writerow([image_file_name, last_joystick_command, current_robot_car_speed])
 
     def __init__(self):
         rospy.init_node("training_data_controller", log_level=rospy.DEBUG)
