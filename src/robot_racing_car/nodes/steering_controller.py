@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import roslib
 import rospy
 import Adafruit_PCA9685
 
