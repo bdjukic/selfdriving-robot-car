@@ -1,0 +1,8 @@
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/./setup.bash
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/./setup.zsh
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/./_setup_util.py
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/./env.sh
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/./setup.sh
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+Symlinking /home/bogdan/Projects/selfdriving-robot-car/devel/lib/pkgconfig/catkin_tools_prebuild.pc

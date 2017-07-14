@@ -1,0 +1,6 @@
+[ 33%] Built target I2C
+[ 66%] Built target PCA9685
+[35m[1mScanning dependencies of target actuator_controller[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/actuator_controller.dir/src/ActuatorController.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/bogdan/Projects/selfdriving-robot-car/devel/.private/actuator_controller/lib/actuator_controller/actuator_controller[0m
+[100%] Built target actuator_controller

@@ -1,0 +1,1 @@
+/home/bogdan/Projects/selfdriving-robot-car/devel/.private/actuator_controller/lib/pkgconfig/actuator_controller.pc

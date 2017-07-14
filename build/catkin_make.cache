@@ -1,2 +1,0 @@
-robot_racing_car
--DCATKIN_DEVEL_PREFIX=/home/bogdan/Projects/robotRacingCar/devel -DCMAKE_INSTALL_PREFIX=/home/bogdan/Projects/robotRacingCar/install -G Unix Makefiles
