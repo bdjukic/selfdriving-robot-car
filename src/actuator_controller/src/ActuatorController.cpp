@@ -4,6 +4,11 @@
 #include "std_msgs/Float32.h"
 #include "PCA9685.h"
 
+// General constans
+const int I2C_PORT = 1;
+const int I2C_ADDRESS = 64;
+const int PCA9685_FREQUENCY = 60;
+
 // Steering constants
 const int MAX_LEFT_ANGLE = 1;
 const int MIN_RIGHT_ANGLE = -1;
@@ -43,7 +48,7 @@ void steeringCallback(const sensor_msgs::Joy::ConstPtr& joy)
 	float throttleValue = joy->axes[1];
 	
 	int steeringPulse = getActuatorPulseValue(steeringValue, MIN_RIGHT_ANGLE, MAX_LEFT_ANGLE, MIN_STEERING_PULSE, MAX_STEERING_PULSE);
-    	int throttlePulse = getActuatorPulseValue(throttleValue, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
+    int throttlePulse = getActuatorPulseValue(throttleValue, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
 	
 	actuator->setPWM(STEERING_ACTUATOR_CHANNEL, steeringPulse);
 	actuator->setPWM(THROTTLE_ACTUATOR_CHANNEL, throttlePulse);
@@ -58,8 +63,9 @@ int main(int argc, char* argv[])
 
 	ros::NodeHandle nodeHandle;
 
-	actuator = new PCA9685(1, 64);
-	actuator->setPWMFreq(60);
+    // Setting up actuator
+	actuator = new PCA9685(I2C_PORT, I2C_ADDRESS);
+	actuator->setPWMFreq(PCA9685_FREQUENCY);
   
 	ros::Subscriber subscriber = nodeHandle.subscribe<sensor_msgs::Joy>("joy", 1, steeringCallback);
 	
