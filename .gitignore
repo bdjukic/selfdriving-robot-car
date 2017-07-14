@@ -2,3 +2,4 @@
 /logs/**
 /devel/**
 .catkin_tools/
+selfdriving-robot-car/
