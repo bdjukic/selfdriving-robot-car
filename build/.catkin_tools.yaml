@@ -1,6 +1,0 @@
-devel_space: /home/bogdan/Projects/selfdriving-robot-car/devel
-install: false
-install_space: /home/bogdan/Projects/selfdriving-robot-car/install
-profile: default
-source_space: /home/bogdan/Projects/selfdriving-robot-car/src
-workspace: /home/bogdan/Projects/selfdriving-robot-car

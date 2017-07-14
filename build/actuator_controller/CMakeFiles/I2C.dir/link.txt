@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC   -shared -Wl,-soname,libI2C.so -o /home/bogdan/Projects/selfdriving-robot-car/devel/.private/actuator_controller/lib/libI2C.so CMakeFiles/I2C.dir/src/I2C.cpp.o 

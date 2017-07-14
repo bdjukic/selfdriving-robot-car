@@ -1,8 +1,0 @@
-prefix=/home/bogdan/Projects/selfdriving-robot-car/devel/.private/robot_racing_car
-
-Name: robot_racing_car
-Description: Description of robot_racing_car
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/bogdan/Projects/selfdriving-robot-car/devel/.private/robot_racing_car/lib 
-Requires: 

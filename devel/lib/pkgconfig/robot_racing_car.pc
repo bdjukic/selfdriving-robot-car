@@ -1,1 +1,0 @@
-/home/bogdan/Projects/selfdriving-robot-car/devel/.private/robot_racing_car/lib/pkgconfig/robot_racing_car.pc

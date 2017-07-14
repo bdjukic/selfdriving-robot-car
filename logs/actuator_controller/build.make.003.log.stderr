@@ -1,7 +1,0 @@
-[01m[K/home/bogdan/Projects/selfdriving-robot-car/src/actuator_controller/src/ActuatorController.cpp:[m[K In function ‘[01m[Kvoid steeringCallback(const ConstPtr&)[m[K’:
-[01m[K/home/bogdan/Projects/selfdriving-robot-car/src/actuator_controller/src/ActuatorController.cpp:49:19:[m[K [01;31m[Kerror: [m[K‘[01m[KSTEERING__ACTUATOR_CHANNEL[m[K’ was not declared in this scope
-  actuator->setPWM(STEERING__ACTUATOR_CHANNEL, throttlePulse);
-[01;32m[K                   ^[m[K
-make[2]: *** [CMakeFiles/actuator_controller.dir/src/ActuatorController.cpp.o] Error 1
-make[1]: *** [CMakeFiles/actuator_controller.dir/all] Error 2
-make: *** [all] Error 2

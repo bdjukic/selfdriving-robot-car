@@ -1,8 +1,0 @@
-prefix=/home/bogdan/Projects/selfdriving-robot-car/install
-
-Name: actuator_controller
-Description: Description of actuator_controller
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/bogdan/Projects/selfdriving-robot-car/install/lib -lactuator_controller
-Requires: 
