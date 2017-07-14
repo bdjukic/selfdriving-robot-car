@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(steering_controller)
+project(actuator_controller)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -103,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-   LIBRARIES steering_controller
+   LIBRARIES actuator_controller
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
@@ -135,7 +135,7 @@ add_library(I2C
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME} src/SteeringController.cpp)
+add_executable(${PROJECT_NAME} src/ActuatorController.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -192,7 +192,7 @@ target_link_libraries(${PROJECT_NAME} I2C)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_steering_controller.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_actuator_controller.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
