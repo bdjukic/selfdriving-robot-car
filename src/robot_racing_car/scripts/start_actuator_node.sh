@@ -6,6 +6,6 @@ PROJECT_FOLDER="/home/bogdan/Projects/selfdriving-robot-car/src/robot_racing_car
 
 . $PROJECT_FOLDER/setup_variables.sh
 
-echo Starting ROS steering node:
+echo Starting ROS Actuator controller node:
 echo
-python ../nodes/steering_controller.py
+rosrun actuator_controller actuator_controller
