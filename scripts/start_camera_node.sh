@@ -3,7 +3,7 @@
 # This is the script for launching the Raspberry Pi camera node.
 # More info on the Raspberry Pi ROS camera node: https://github.com/UbiquityRobotics/raspicam_node
 
-PROJECT_FOLDER="/home/bogdan/Projects/selfdriving-robot-car/src/robot_racing_car/scripts"
+PROJECT_FOLDER="/home/bogdan/Projects/selfdriving-robot-car/scripts"
 
 . $PROJECT_FOLDER/setup_variables.sh
 
