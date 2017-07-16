@@ -1,7 +1,8 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-
+#include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
+
 #include "PCA9685.h"
 
 // General constans
@@ -28,6 +29,10 @@ const int MAX_THROTTLE_PULSE = 500;
 
 const int THROTTLE_ACTUATOR_CHANNEL = 1;
 
+using namespace std_msgs;
+using namespace sensor_msgs;
+using namespace std;
+
 PCA9685 *actuator;
 
 int getActuatorPulseValue(float joystickValue, int joystickMin, int joystickMax, int actuatorMin, int actuatorMax)
@@ -42,13 +47,10 @@ int getActuatorPulseValue(float joystickValue, int joystickMin, int joystickMax,
 	return actuatorValue;
 }
 
-void steeringCallback(const sensor_msgs::Joy::ConstPtr& joy)
+void drive(float steeringAngle, float throttle)
 {
-	float steeringValue = joy->axes[0];
-	float throttleValue = joy->axes[1];
-	
-	int steeringPulse = getActuatorPulseValue(steeringValue, MIN_RIGHT_ANGLE, MAX_LEFT_ANGLE, MIN_STEERING_PULSE, MAX_STEERING_PULSE);
-    int throttlePulse = getActuatorPulseValue(throttleValue, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
+	int steeringPulse = getActuatorPulseValue(steeringAngle, MIN_RIGHT_ANGLE, MAX_LEFT_ANGLE, MIN_STEERING_PULSE, MAX_STEERING_PULSE);
+    int throttlePulse = getActuatorPulseValue(throttle, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
 	
 	actuator->setPWM(STEERING_ACTUATOR_CHANNEL, steeringPulse);
 	actuator->setPWM(THROTTLE_ACTUATOR_CHANNEL, throttlePulse);
@@ -57,17 +59,47 @@ void steeringCallback(const sensor_msgs::Joy::ConstPtr& joy)
 	ROS_INFO("Throttle value: [%i]", throttlePulse);
 }
 
+void steeringCallback(const Joy::ConstPtr& joy)
+{
+	float steeringAngle = joy->axes[0];
+	float throttle = joy->axes[1];
+	
+	drive(steeringAngle, throttle);
+}
+
+vector<string> splitString(const string &s, char delimiter) {
+    stringstream ss(s);
+    string item;
+    vector<string> tokens;
+    
+    while (getline(ss, item, delimiter)) {
+        tokens.push_back(item);
+    }
+    
+    return tokens;
+}
+
+void autonomousCallback(const String::ConstPtr& command)
+{
+	vector<string> parsedCommand = splitString(command->data, ':');
+	
+	float steeringAngle = atof(parsedCommand[0].c_str());
+	float throttle = atof(parsedCommand[1].c_str());
+	
+	drive(steeringAngle, throttle);
+}
+
 int main(int argc, char* argv[])
 { 
 	ros::init(argc, argv, "actuator_controller");
 
 	ros::NodeHandle nodeHandle;
 
-    // Setting up actuator
 	actuator = new PCA9685(I2C_PORT, I2C_ADDRESS);
 	actuator->setPWMFreq(PCA9685_FREQUENCY);
   
-	ros::Subscriber subscriber = nodeHandle.subscribe<sensor_msgs::Joy>("joy", 1, steeringCallback);
+	ros::Subscriber steeringSubscriber = nodeHandle.subscribe<Joy>("joy", 1, steeringCallback);
+	ros::Subscriber autonomousSubscriber = nodeHandle.subscribe<String>("autopilot", 1, autonomousCallback);
 	
 	ROS_INFO("ROS Actuator controller node started.");
 
