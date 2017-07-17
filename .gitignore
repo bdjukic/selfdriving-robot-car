@@ -2,4 +2,9 @@
 /logs/**
 /devel/**
 .catkin_tools/
-selfdriving-robot-car/
+selfdriving-robot-car/**
+/training_data/
+/validation_data/
+/model/model.h5
+/model/weights.h5
+.idea/

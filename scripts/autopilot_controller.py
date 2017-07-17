@@ -43,12 +43,15 @@ class AutopilotController:
             steering_angle_prediction = self.model.predict(last_image)
             steering_angle = self.unbin_Y(steering_angle_prediction)
             
-            throttle = 0.3
+            throttle = 0.175
 
-            rospy.logdebug("Steering angle: " + str(steering_angle))
+            
             #rospy.logdebug("Throttle: " + str(throttle))
+            
+            command = str(steering_angle[0]) + ":" + str(throttle)
+            rospy.logdebug("Steering angle: " + command)
 			
-            self.autopilot_publisher.publish(str(steering_angle) + ":" + str(throttle))
+            self.autopilot_publisher.publish(command)
 
     def __init__(self):
         rospy.init_node("autopilot_controller", log_level=rospy.DEBUG)

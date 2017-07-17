@@ -54,9 +54,6 @@ void drive(float steeringAngle, float throttle)
 	
 	actuator->setPWM(STEERING_ACTUATOR_CHANNEL, steeringPulse);
 	actuator->setPWM(THROTTLE_ACTUATOR_CHANNEL, throttlePulse);
-	
-	ROS_INFO("Steering value: [%i]", steeringPulse);
-	ROS_INFO("Throttle value: [%i]", throttlePulse);
 }
 
 void steeringCallback(const Joy::ConstPtr& joy)
@@ -80,7 +77,7 @@ vector<string> splitString(const string &s, char delimiter) {
 }
 
 void autonomousCallback(const String::ConstPtr& command)
-{
+{	
 	vector<string> parsedCommand = splitString(command->data, ':');
 	
 	float steeringAngle = atof(parsedCommand[0].c_str());
