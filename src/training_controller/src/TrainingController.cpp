@@ -30,8 +30,8 @@ void callback(const Joy::ConstPtr& joystick, const CompressedImageConstPtr& imag
 	
 	milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	
-	std::string imageFileName = "training_data/screenshot_" + std::to_string(ms.count()) + ".jpg";
-	imwrite(imageFileName, resized_cv_image);
+	std::string imageFileName = "screenshot_" + std::to_string(ms.count()) + ".jpg";
+	imwrite("training_data/" + imageFileName, resized_cv_image);
 	
 	training_data_file << imageFileName + "," + std::to_string(steeringAngle) + "," + std::to_string(throttle) + "\n";
 }
