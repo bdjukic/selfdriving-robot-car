@@ -26,5 +26,5 @@ for csv_line in csv_lines:
 	else:
 		right_count += 1
 
-print("Left: " + str(left_count))
-print("Right: " + str(right_count))
+print("Left turns count: " + str(left_count))
+print("Right turns count: " + str(right_count))
