@@ -21,18 +21,20 @@ from keras.callbacks import ModelCheckpoint
 image_width = 320
 image_height = 240
 
-def linear_bin(a):
-    a = a + 1
-    b = round(a / (2.0/14.0))
-    return int(b)
+def linear_bin(value_to_bin):
+    value_to_bin = value_to_bin + 1
+    binned_value = round(value_to_bin / (2.0 / 14.0))
 
-def bin_Y(Y):
-    d = []
-    for y in Y:
-        arr = np.zeros(15)
-        arr[linear_bin(y)] = 1
-        d.append(arr)
-    return np.array(d) 
+    return int(binned_value)
+
+def bin_matrix(matrix_to_bin):
+    binned_matrix = []
+    for value_to_bin in matrix_to_bin:
+        temp_bin = np.zeros(15)
+        temp_bin[linear_bin(value_to_bin)] = 1
+        binned_matrix.append(temp_bin)
+        
+    return np.array(binned_matrix) 
 
 def get_data(data_folder):
     training_csv_lines = []
@@ -54,11 +56,12 @@ def get_data(data_folder):
         steering_commands.append(steering_command)
 
         # Data augmentation
-        #flipped_image = cv2.flip(image, 1)
-        #images.append(flipped_image)
-        #steering_commands.append(-steering_command)
-        
-    steering_commands = bin_Y(steering_commands)
+        flipped_image = cv2.flip(image, 1)
+        images.append(flipped_image)
+        steering_commands.append(-steering_command)
+
+	# Grouping data into bins: https://msdn.microsoft.com/en-us/library/azure/dn913065.aspx        
+    steering_commands = bin_matrix(steering_commands)
  
     return images, steering_commands
 
@@ -88,8 +91,7 @@ def get_model():
     
     rmsprop = RMSprop(lr=0.000001)
 
-    model.compile(optimizer=rmsprop,
-			      loss={'steering_output': 'categorical_crossentropy'})
+    model.compile(optimizer=rmsprop, loss={'steering_output': 'categorical_crossentropy'})
 
     return model
 
@@ -106,28 +108,22 @@ y_valid = np.array(validation_commands)
 
 model = get_model()
 
-# Creating check point for saving only the best model's weights
-checkpoint = ModelCheckpoint("./weights.h5", monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+# Creating check point for saving only the best model
+checkpoint = ModelCheckpoint("./model.h5", monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
 
 history = model.fit(X_train, 
 			y_train,
 			validation_data=(X_valid, y_valid),
 			shuffle=True,
-			epochs=20,
+			epochs=30,
 			batch_size=128,
 			verbose=1,
 			callbacks=callbacks_list)
 
-model.load_weights('./weights.h5')
-model.save("./model.h5")
-
-# Make predictions
-train_predictions = model.predict(X_train)
-test_predictions = model.predict(X_valid)
-
+# Training and validation loss chart
 plt.title("Loss")
-plt.plot(history.history["loss"], color="green", label="Train")
-plt.plot(history.history["val_loss"], color="red", label="Validation")
+plt.plot(history.history["loss"], color="green", label="Training loss")
+plt.plot(history.history["val_loss"], color="red", label="Validation loss")
 
 plt.show()

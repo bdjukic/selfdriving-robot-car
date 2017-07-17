@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>autopilot_controller</name>
+  <version>1.0.0</version>
+  <description>The autopilot_controller package</description>
+
+  <maintainer email="bdjukic@gmail.com">Bogdan Djukic</maintainer>
+  <license>BSD</license>
+  <url type="website">https://medium.com/@bdjukic</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+</package>
