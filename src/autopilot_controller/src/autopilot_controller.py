@@ -14,7 +14,6 @@ from random import uniform
 
 class AutopilotController:
 
-
     IMAGE_SCALE = 4
     
     model = load_model("./model/model.h5")
@@ -38,26 +37,32 @@ class AutopilotController:
     def camera_callback(self, message):
         np_arr = np.fromstring(message.data, np.uint8)
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        small_image = np.empty((image.shape[1] / constants.IMAGE_SCALE, image.shape[0] / constants.IMAGE_SCALE))
+        small_image = np.empty((image.shape[1] / self.IMAGE_SCALE, image.shape[0] / self.IMAGE_SCALE))
         image = cv2.resize(image, small_image.shape, interpolation=cv2.INTER_LINEAR)
 
         last_image = np.asarray(image)
 
         with self.graph.as_default():
             last_image = last_image.reshape((1,) + last_image.shape)
-            steering_angle_prediction = self.model.predict(last_image)
+            
+            # Doing steering angle and throttle prediction based on image
+            prediction = self.model.predict(last_image)
             
             # Grouping data into bins: https://msdn.microsoft.com/en-us/library/azure/dn913065.aspx
-            steering_angle = self.unbin_matrix(steering_angle_prediction)
+            steering_angle = self.unbin_matrix(prediction)[0]
+            throttle = 0.19
             
-            throttle = 0.175
-            
-            #rospy.logdebug("Throttle: " + str(throttle))
-            
-            command = str(steering_angle[0]) + ":" + str(throttle)
-            rospy.logdebug("Steering angle: " + command)
+            command = str(steering_angle) + ":" + str(throttle)
+
+            rospy.logdebug("Autopilot command: " + command)
 			
             self.autopilot_publisher.publish(command)
+            
+    def shutdownCallback(self):
+    	# On node shutdown set the steering angle and throttle to 0. This message is not guaranteed to be published. 
+    	
+    	rospy.logdebug("Setting steering angle and throttle to 0")
+    	self.autopilot_publisher.publish("0:0")
 
     def __init__(self):
         rospy.init_node("autopilot_controller", log_level=rospy.DEBUG)
@@ -65,6 +70,8 @@ class AutopilotController:
         self.autopilot_publisher = rospy.Publisher("autopilot", String, queue_size=1)
 
         rospy.Subscriber("/raspicam_node/image/compressed", CompressedImage, self.camera_callback, queue_size=1)
+        
+        rospy.on_shutdown(self.shutdownCallback)
 
 
 if __name__ == "__main__":
