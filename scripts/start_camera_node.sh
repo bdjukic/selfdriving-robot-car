@@ -5,7 +5,7 @@
 
 PROJECT_FOLDER="/home/bogdan/Projects/selfdriving-robot-car/scripts"
 
-. $PROJECT_FOLDER/setup_variables.sh
+. $PROJECT_FOLDER/setup_raspi_variables.sh
 
 echo Starting Raspberry Pi Camera ROS node:
 echo
