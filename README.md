@@ -13,6 +13,10 @@
 2. Install ROS package for Raspberry Pi camera: http://ubiquityrobotics.com/blog/2016/01/24/Raspberry-Pi-Cam.html
 3. Install Catkin build tools: http://catkin-tools.readthedocs.io/en/latest/installing.html
 
-## Bulding the workspace:
+## Building the workspace:
 
 Run `catkin build` in the root of the project.
+
+## Setting up environment variables
+
+Set up ROS Master node and Raspberry Pi IP addresses in `scripts/setup_variables.sh` 
