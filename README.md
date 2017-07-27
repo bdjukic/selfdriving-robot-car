@@ -3,7 +3,7 @@
 
 ## Introduction
 
-You can list of needed hardware pieces from related Medium post: https://medium.com/towards-data-science/build-your-own-self-driving-toy-car-ad00a6804b53
+You can find the list of needed hardware pieces from related Medium post: https://medium.com/towards-data-science/build-your-own-self-driving-toy-car-ad00a6804b53
 
 3D printable model for the camera mount can be found in this repo under `3d_print_model` folder. 
  
