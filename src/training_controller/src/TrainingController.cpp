@@ -19,11 +19,11 @@ using namespace std::chrono;
 
 std::ofstream training_data_file;
 
-void callback(const Joy::ConstPtr& joystick, const CompressedImageConstPtr& image)
+float steeringAngle = 0;
+float throttle = 0;
+
+void cameraCallback(const CompressedImageConstPtr& image)
 {	
-	float steeringAngle = joystick->axes[0];
-	float throttle = joystick->axes[1];
-	
 	cv::Mat cv_image = cv::imdecode(cv::Mat(image->data), CV_LOAD_IMAGE_COLOR);
 	cv::Mat resized_cv_image;	
 	cv::resize(cv_image, resized_cv_image, cv::Size(), 0.25, 0.25);
@@ -34,6 +34,12 @@ void callback(const Joy::ConstPtr& joystick, const CompressedImageConstPtr& imag
 	imwrite("training_data/" + imageFileName, resized_cv_image);
 	
 	training_data_file << imageFileName + "," + std::to_string(steeringAngle) + "," + std::to_string(throttle) + "\n";
+}
+
+void joystickCallback(const Joy::ConstPtr& joystick)
+{	
+	steeringAngle = joystick->axes[0];
+	throttle = joystick->axes[1];
 }
 
 void sigintHandler(int sig)
@@ -53,13 +59,8 @@ int main(int argc, char* argv[])
 	
 	signal(SIGINT, sigintHandler);
 	
-	message_filters::Subscriber<Joy> joystickSubscriber(nodeHandle, "/joy_throttle", 10);
-	message_filters::Subscriber<CompressedImage> cameraSubscriber(nodeHandle, "/raspicam_node/image/compressed", 10);
-	
-	typedef sync_policies::ApproximateTime<Joy, CompressedImage> SyncPolicy;
-	
-	Synchronizer<SyncPolicy> synchronizer(SyncPolicy(10), joystickSubscriber, cameraSubscriber);
-	synchronizer.registerCallback(boost::bind(&callback, _1, _2));
+	ros::Subscriber joystickSubscriber = nodeHandle.subscribe<Joy>("joy", 30, &joystickCallback);
+	ros::Subscriber cameraSubscriber = nodeHandle.subscribe<CompressedImage>("raspicam_node/image/compressed", 30, &cameraCallback);
 	
 	training_data_file.open("training_data/training_data.csv", std::ios_base::app);
 	
