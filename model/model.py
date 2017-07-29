@@ -56,13 +56,12 @@ def get_data(data_folder):
         steering_commands.append(steering_command)
 
         # Data augmentation
-        #flipped_image = cv2.flip(image, 1)
-        #images.append(flipped_image)
-        #steering_commands.append(-steering_command)
-        #throttle_commands.append(throttle_command)
+        flipped_image = cv2.flip(image, 1)
+        images.append(flipped_image)
+        steering_commands.append(-steering_command)
 
 	# Grouping data into bins: https://msdn.microsoft.com/en-us/library/azure/dn913065.aspx        
-    steering_commands = bin_matrix(steering_commands)
+        steering_commands = bin_matrix(steering_commands)
  
     return images, steering_commands
 
