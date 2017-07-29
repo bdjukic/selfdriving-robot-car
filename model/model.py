@@ -60,8 +60,8 @@ def get_data(data_folder):
         images.append(flipped_image)
         steering_commands.append(-steering_command)
 
-	# Grouping data into bins: https://msdn.microsoft.com/en-us/library/azure/dn913065.aspx        
-        steering_commands = bin_matrix(steering_commands)
+    # Grouping data into bins: https://msdn.microsoft.com/en-us/library/azure/dn913065.aspx        
+    steering_commands = bin_matrix(steering_commands)
  
     return images, steering_commands
 
