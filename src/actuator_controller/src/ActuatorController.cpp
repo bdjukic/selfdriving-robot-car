@@ -37,31 +37,31 @@ PCA9685 *actuator;
 
 int getActuatorPulseValue(float joystickValue, int joystickMin, int joystickMax, int actuatorMin, int actuatorMax)
 {
-	// Linear mapping between two ranges of values
+    // Linear mapping between two ranges of values
     int joystickRange = joystickMax - joystickMin;
     int actuatorRange = actuatorMax - actuatorMin;
     
     float joystickActuatorRatio = (float)joystickRange / (float)actuatorRange;
     int actuatorValue = (joystickValue - joystickMin) / joystickActuatorRatio + actuatorMin;
 
-	return actuatorValue;
+    return actuatorValue;
 }
 
 void drive(float steeringAngle, float throttle)
 {
-	int steeringPulse = getActuatorPulseValue(steeringAngle, MIN_RIGHT_ANGLE, MAX_LEFT_ANGLE, MIN_STEERING_PULSE, MAX_STEERING_PULSE);
-    int throttlePulse = getActuatorPulseValue(throttle, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
+     int steeringPulse = getActuatorPulseValue(steeringAngle, MIN_RIGHT_ANGLE, MAX_LEFT_ANGLE, MIN_STEERING_PULSE, MAX_STEERING_PULSE);
+     int throttlePulse = getActuatorPulseValue(throttle, MIN_THROTTLE, MAX_THROTTLE, MIN_THROTTLE_PULSE, MAX_THROTTLE_PULSE);
 	
-	actuator->setPWM(STEERING_ACTUATOR_CHANNEL, steeringPulse);
-	actuator->setPWM(THROTTLE_ACTUATOR_CHANNEL, throttlePulse);
+     actuator->setPWM(STEERING_ACTUATOR_CHANNEL, steeringPulse);
+     actuator->setPWM(THROTTLE_ACTUATOR_CHANNEL, throttlePulse);
 }
 
 void steeringCallback(const Joy::ConstPtr& joy)
 {
-	float steeringAngle = joy->axes[0];
-	float throttle = joy->axes[1];
+     float steeringAngle = joy->axes[0];
+     float throttle = joy->axes[1];
 	
-	drive(steeringAngle, throttle);
+     drive(steeringAngle, throttle / 4.0);
 }
 
 vector<string> splitString(const string &s, char delimiter) {
