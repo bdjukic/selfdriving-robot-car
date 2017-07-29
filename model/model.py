@@ -74,6 +74,7 @@ def get_model():
     x = input_image
 
     x = Lambda(lambda x: x / 255.0, input_shape=(image_height, image_width, 3))(x)
+    x = Cropping2D(cropping=((90,0), (0,0)))(x)
 	
     x = Conv2D(32, (5, 5), strides=(2, 2))(x)
     x = Conv2D(64, (5, 5), strides=(2, 2))(x)
